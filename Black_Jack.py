@@ -7,6 +7,7 @@ import torch.nn as nn
 from functools import partial
 import matplotlib.pyplot as plt
 
+# types for type hinting/to satisfy my neuroticism
 Layer = List[nn.Module]
 list_or_int = Union[int, List[int]]
 Hand = List[int]
@@ -22,65 +23,80 @@ Qtable = NamedTuple(
         ("reward", int),
     ],
 )
+# state transition tuple
 Transition = namedtuple("Transition", ("state", "action", "next_state", "reward"))
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def relu_layer(input_dim: int, output_dim: int) -> Layer:
+    # makes a relu layer
     return [nn.Linear(input_dim, output_dim), nn.ReLU()]
 
 
 def net(input_dim: int, h: list_or_int, output_dim: int) -> Net:
     h = [h] if not isinstance(h, list) else h
     dims = [input_dim] + h + [output_dim]
+    # makes it so it is a list of [input_dim, output_dim]
     dims = [[dims[i], dims[i + 1]] for i in range(len(dims) - 1)]
+    # construct network list
     layers = [
         relu_layer(*dims[i]) if i != len(dims) - 1 else [nn.Linear(*dims[i])]
         for i in range(len(dims))
     ]
+    #  flatten network list and build network
     return nn.Sequential(*sum(layers, []))
 
 
 def fresh_deck(n_decks: int = 6) -> List:
+    # make a fresh deck of cards
     _cards = list(range(1, 14)) * n_decks
     _cards = [x if x < 10 else 10 for x in _cards]
+    _cards = [x if x != 1 else 11 for x in _cards]
     random.shuffle(_cards)
     return _cards
 
 
 def make_table() -> Table:
+    # make a dict of players at the table
     return {"house": fresh_deck(), "dead": [], "dealer": [], "gambler": []}
 
 
 def give_card(t: Table, player: str) -> Table:
+    # give a card to a player
     t[player].append(t["house"].pop(0))
     return t
 
 
 def start_hand(t: Table) -> Table:
+    # everyone gets two cards
     for _ in range(2):
         t = give_card(t, "gambler")
         t = give_card(t, "dealer")
 
+    # we ignore blackjack
     if 21 in [score_hand(t[k]) for k in ["dealer", "gambler"]]:
         t = start_hand(t)
     return t
 
 
 def clear_table(t: Table) -> Table:
+    # remove the cards
     t["dealer"] = []
     t["gambler"] = []
     return t
 
 
 def end_hand(t: Table) -> Table:
+    # put the cards from the players hands to the dead cards pile and clear the
+    # table
     t["dead"] += t["gambler"] + t["dealer"]
     t = clear_table(t)
     return t
 
 
 def reset_table(t: Table) -> Table:
+    # reshuffle deck at some point
     t["house"] += t["dead"]
     t["dead"] = []
     random.shuffle(t["house"])
@@ -88,12 +104,14 @@ def reset_table(t: Table) -> Table:
 
 
 def score_hand(h: Hand) -> int:
+    # calculate a score for the hand, dealing with aces recursively
     tot = sum(h)
     if tot > 21:
         if 11 in h:
             h[h.index(11)] = 1
             return score_hand(h)
         else:
+            # bust = -1
             return -1
     else:
         return tot
@@ -101,6 +119,7 @@ def score_hand(h: Hand) -> int:
 
 def dealer_decide(t: Table) -> int:
     score = score_hand(t["dealer"])
+    # 0 = stay, 1 = hit
     if score == -1:
         return 0
     elif score >= 17:
@@ -110,6 +129,7 @@ def dealer_decide(t: Table) -> int:
 
 
 def pad_hand(h: Hand, padding: int) -> Hand:
+    # pad hand with zeros, for NN
     return h + [0] * (padding - len(h))
 
 
@@ -123,6 +143,7 @@ def get_state(t: Table) -> List[int]:
 
 
 def gambler_decide(t: Table, n: Net, epsilon: float) -> int:
+    # predict a state by selecting the option with the maximum expected return
     state = get_state(t)
     state = torch.tensor(state, device=device, dtype=torch.float)
     p = random.random()
@@ -134,37 +155,44 @@ def gambler_decide(t: Table, n: Net, epsilon: float) -> int:
 
 
 def create_memory(capacity: int) -> Dict:
+    # make memory dict
     return {"memory": [], "capacity": capacity}
 
 
 def add_memory(
     memory: Dict, state: Hand, action: int, next_state: Hand, reward: float
 ) -> Dict:
+    # add to the memory dict
     args = [state, action, next_state, reward]
     args = [x if isinstance(x, list) else [x] for x in args]
     # args = [torch.tensor(x, device = device) for x in args]
     memory["memory"].append(Transition(*args))
+    # if we are bigger than capacity, pop the oldest memory
     if len(memory["memory"]) > memory["capacity"]:
         _ = memory["memory"].pop(0)
     return memory
 
 
 def sample_memory(memory: Dict, batch_size: int) -> List[Qtable]:
+    # sample the memory
     return random.sample(memory["memory"], batch_size)
 
 
 def generate_batch(memory: Dict, batch_size: int) -> Qtable:
+    # this "transposes" a list of tuples to a tuple of lists
     batch = Transition(*zip(*sample_memory(memory, batch_size)))
     return batch
 
 
 def q_sa(batch: Qtable, n: Net) -> TensorLike:
+    # expected return
     state = torch.tensor(batch.state, device=device, dtype=torch.float)
     action = torch.tensor(batch.action, device=device, dtype=torch.long)
     return n(state).gather(1, action)
 
 
 def v_sf(batch: Qtable, n: Net, gamma: float) -> TensorLike:
+    # calculated return given next state
     # do we need to do anything about the final state being the same if the game
     # is over?? I do not think so and we can just hope for nn magic
     next_state = torch.tensor(batch.next_state, device=device, dtype=torch.float)
@@ -213,23 +241,24 @@ for e in range(epochs):
 
         if current_state == next_state:
             # do something to mask this or whatever the silly torch guys did
+            # but this signifies game over!
             game_over = True
             if scores["gambler"] == scores["dealer"]:
                 # everyone gets their money
-                reward = 0.5
+                reward = 0
             elif scores["dealer"] < scores["gambler"]:
                 # we lost but we didnt bust
-                reward = 0
+                reward = -1
             else:
                 reward = 1
         elif scores["gambler"] == -1 and scores["dealer"] != -1:
             game_over = True
             # yikes
-            reward = 0
+            reward = -1
         elif scores["gambler"] == -1 and scores["dealer"] == -1:
             game_over = True
             # we busted! but so did the dealer! tough luck!
-            reward = 0
+            reward = -1
         elif scores["dealer"] == -1 and scores["gambler"] != -1:
             game_over = True
             reward = 1
@@ -247,19 +276,19 @@ for e in range(epochs):
 
         batch = generate_batch(memory, batch_size)
         qsa = q_sa(batch, policy_net)
+        # something something for stability
         vsf = v_sf(batch, target_net, gamma)
 
         loss = nn.functional.smooth_l1_loss(qsa, vsf)
-        if loss.cpu().detach() > 10:
-            import pdb; pdb.set_trace()  # XXX BREAKPOINT
 
         optimizer.zero_grad()
         loss.backward()
         for param in policy_net.parameters():
-            param.data.clamp_(-0.5, 0.5)
+            param.data.clamp_(-1, 1)
         optimizer.step()
 
-        if e % 50 == 0:
+
+        if e % 10 == 0:
             target_net.load_state_dict(policy_net.state_dict())
         if e % 20 == 0:
             print("\x1bc")
