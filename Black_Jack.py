@@ -24,7 +24,8 @@ Qtable = NamedTuple(
     ],
 )
 # state transition tuple
-Transition = namedtuple("Transition", ("state", "action", "next_state", "reward"))
+Transition = namedtuple(
+    "Transition", ("state", "action", "next_state", "reward"))
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -88,8 +89,7 @@ def clear_table(t: Table) -> Table:
 
 
 def end_hand(t: Table) -> Table:
-    # put the cards from the players hands to the dead cards pile and clear the
-    # table
+    # put the cards from the players hands to the dead cards pile and clear the table
     t["dead"] += t["gambler"] + t["dealer"]
     t = clear_table(t)
     return t
@@ -195,7 +195,8 @@ def v_sf(batch: Qtable, n: Net, gamma: float) -> TensorLike:
     # calculated return given next state
     # do we need to do anything about the final state being the same if the game
     # is over?? I do not think so and we can just hope for nn magic
-    next_state = torch.tensor(batch.next_state, device=device, dtype=torch.float)
+    next_state = torch.tensor(
+        batch.next_state, device=device, dtype=torch.float)
     next_value = n(next_state).max(1)[0].detach()
     out = (next_value * gamma) + torch.tensor(
         batch.reward, device=device, dtype=torch.float
@@ -270,7 +271,8 @@ for e in range(epochs):
             if len(table["house"]) < 52:
                 table = reset_table(table)
 
-        memory = add_memory(memory, current_state, gambler_action, next_state, reward)
+        memory = add_memory(memory, current_state,
+                            gambler_action, next_state, reward)
         if len(memory["memory"]) <= batch_size:
             continue
 
@@ -286,7 +288,6 @@ for e in range(epochs):
         for param in policy_net.parameters():
             param.data.clamp_(-1, 1)
         optimizer.step()
-
 
         if e % 10 == 0:
             target_net.load_state_dict(policy_net.state_dict())
