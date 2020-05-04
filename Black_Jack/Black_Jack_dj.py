@@ -6,9 +6,9 @@ import torch
 import torch.nn as nn
 from functools import partial
 import matplotlib.pyplot as plt
-import os
-
-os.system("clear")
+# import os
+#
+# os.system("clear")
 
 # types for type hinting/to satisfy my neuroticism
 Layer = List[nn.Module]
