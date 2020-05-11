@@ -1,0 +1,2 @@
+Q-learning is a form of model-free reinforcement learning. It can also be
+viewed as a method of asynchronous dynamic programming(DP). 
