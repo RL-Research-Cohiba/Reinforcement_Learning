@@ -1,2 +1,24 @@
 Q-learning is a form of model-free reinforcement learning. It can also be
-viewed as a method of asynchronous dynamic programming(DP). 
+viewed as a method of asynchronous dynamic programming(DP). It provides
+agents with the capability of learning to act optimally in Markovian domains
+by experiencing the consequence of actions, without requiring them to build maps
+of the domains.
+
+Watkins(1989) classes Q-learning as incremental dynamic programming, because
+of the step-by-step manner in which it determines the optimal policy.
+
+The object in Q-learning is to estimate the Q values for an optimal policy.
+
+#-------------------------------------------------------------------------------
+In Reinforcement Learning, we want to obtain a function Q(s,a) that predicts
+best action a in state s in order to maximize a cumulative reward.
+
+This function can be estimated using Q-learning, which iteratively updates
+Q(s,a) using the Bellman Equation.
+#-------------------------------------------------------------------------------
+Q-learning is a model-free learning technique that can used to find the
+optimal action-selection policy using a Q-function.
+#-------------------------------------------------------------------------------
+The exploration verses exploitation dilemma is exemplified by the question of
+whether an AI should trust the learned values of Q enough to select actions
+based on it or try other actions hoping that might give it a better reward.
