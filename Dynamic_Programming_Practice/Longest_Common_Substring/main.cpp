@@ -16,6 +16,7 @@ string LCS(string X, string Y, int m, int n)
 
   // Initialize all cells of lookup table to 0
   memset(lookup, 0, sizeof(lookup));
+  
 
   
 
