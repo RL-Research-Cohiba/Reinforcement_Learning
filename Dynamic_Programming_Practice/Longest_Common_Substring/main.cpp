@@ -13,6 +13,10 @@ string LCS(string X, string Y, int m, int n)
   // Lookup[i][j] stores the length of LCS substring
   // X[0..i-1], Y[0..j-1]
   int lookup[m + 1][n + 1];
+
+  // Initialize all cells of lookup table to 0
+  memset(lookup, 0, sizeof(lookup));
+
   
 
 
