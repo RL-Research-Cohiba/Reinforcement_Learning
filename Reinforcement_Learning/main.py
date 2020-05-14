@@ -2,9 +2,13 @@ import main
 import gym
 gym.logger.set_level(40)  # Explicitly specify dtype as float32
 
-env = gym.make('CartPole-v1')
+env = gym.make("CartPole-v1")
+observation = env.reset()
+for _ in range(1000):
+    env.render()
+    action = env.action_space.sample()  # your agent here (this takes random actions)
+    observation, reward, done, info = env.step(action)
 
-env.seed(42)
-obs = env.reset()
-
-print(obs)
+    if done:
+        observation = env.reset()
+env.close()
