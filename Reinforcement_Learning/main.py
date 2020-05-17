@@ -41,17 +41,6 @@ def save_fig(fig_id, tight_layout=True, fig_extension="png", resolution=300):
 
 
 env = gym.make("CartPole-v1")
-# observation = env.reset()
-#########################################################################################
-# for _ in range(1000):                                                                 #
-#     env.render()                                                                      #
-#     action = env.action_space.sample()  # your agent here (this takes random actions) #
-#     observation, reward, done, info = env.step(action)                                #
-#                                                                                       #
-#     if done:                                                                          #
-#         observation = env.reset()                                                     #
-# env.close()                                                                           #
-#########################################################################################
 
 
 def basic_policy(obs):
