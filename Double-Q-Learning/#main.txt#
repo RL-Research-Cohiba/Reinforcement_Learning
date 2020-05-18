@@ -1,0 +1,4 @@
+Q-Learning preforms very poorly in some stochastic environment. The poor performance is cuased by large overestimation of action values due to the use of Max Q(s',a) in Q-Learning.
+
+To rememdy this problem, we propose the Double Q-Learning method.
+
