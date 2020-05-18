@@ -9,3 +9,6 @@
 ## Double Q-Learning
 * https://papers.nips.cc/paper/3964-double-q-learning.pdf
 * https://towardsdatascience.com/double-q-learning-the-easy-way-a924c4085ec3
+
+## Graphs and Reinforcement Learning
+* https://arxiv.org/abs/2001.11279
