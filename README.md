@@ -12,3 +12,6 @@
 
 ## Graphs and Reinforcement Learning
 * https://arxiv.org/abs/2001.11279
+
+## Deep Q-Learning with Pytorch
+https://www.youtube.com/watch?v=UlJzzLYgYoE
