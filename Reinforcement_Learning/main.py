@@ -13,7 +13,7 @@ import sys
 assert sys.version_info >= (3, 5)
 
 # Common imports
-# To make this notebook's output stable across runs
+# To make output stable across runs
 np.random.seed(42)
 tf.random.set_seed(42)
 
