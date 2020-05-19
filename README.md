@@ -16,5 +16,5 @@
 ## Deep Q-Learning with Pytorch
 * https://www.youtube.com/watch?v=UlJzzLYgYoE
 
-## Videos
+## Videos of Our Discussions
 * https://us02web.zoom.us/rec/share/xcdlLPLzrmxLfNbNuFHud4UtFaTVeaa823IYr6dYzUw-uzo3Q0gjSQwweD9oLgzf
