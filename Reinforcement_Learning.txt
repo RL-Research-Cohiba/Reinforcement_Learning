@@ -1,0 +1,8 @@
+1. What is Reinforcment Learning
+
+2. What is the Markov Decision Process?
+
+3. What is Q-Learning?
+
+4. What are Policy Gradients?
+
