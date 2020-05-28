@@ -18,3 +18,6 @@
 
 ## Videos of Our Discussions
 * https://us02web.zoom.us/rec/share/xcdlLPLzrmxLfNbNuFHud4UtFaTVeaa823IYr6dYzUw-uzo3Q0gjSQwweD9oLgzf
+
+## Graph Theory
+* http://people.cs.uchicago.edu/~laci/19graphs/#texts
