@@ -1,5 +1,6 @@
 # Python >=3.5 is required
 import gym
+gym.logger.set_level(40)
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import matplotlib as mpl
