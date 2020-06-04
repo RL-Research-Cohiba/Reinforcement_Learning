@@ -1,6 +1,7 @@
 import numpy as np
 from itertools import product
 from nltk.corpus import treebank
+
 A = np.array([[0.6, 0.2, 0.2], [0.5, 0.3, 0.2], [0.4, 0.1, 0.5]])
 pi = np.array([0.5, 0.2, 0.3])
 O = np.array([[0.7, 0.1, 0.2], [0.1, 0.6, 0.3], [0.3, 0.3, 0.4]])
@@ -9,8 +10,10 @@ observations = [UP, UP, DOWN]
 alpha = np.zeros((len(observations), len(states)))
 alpha[:,:] = float('-inf')
 backpointers = np.zeros((len(observations), len(states)), 'int')
+
 # The base case for the recursion sets the starting state probs based on pi and generating the observation.
 alpha[0, :] = pi * O[:,UP]
+
 # Now for the recursive step, where we maximise over incoming transitions reusing the best incoming score, computed above.
 for t1 in states:
     for t0 in states:
