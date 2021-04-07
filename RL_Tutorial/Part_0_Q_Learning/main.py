@@ -14,4 +14,8 @@ for i in range(num_episodes):
     # Reset environment and get first new observation
     s = env.reset()
     rAll = 0
-    d = Falsej = 0
+    d = False
+    j = 0
+    # The Q-Table Learning algorithm
+    while j < 99:
+        j += 1
