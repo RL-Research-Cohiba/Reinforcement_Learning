@@ -26,5 +26,6 @@ for i in range(num_episodes):
     while j < 99:
         j += 1
         # Choose an action by greedily (with noise) picking from Q Table
-        a = np.argmax(Q[s,:]+np.random.randn(1,env.action_space.n*(1./(i+1))))
-        
+        a = np.argmax(Q[s,:]+np.random.randn(1,env.action_space.n)*(1./(i+1)))
+        # Get the new state and reward from environment
+        s1, r, d,_ = env.step(a)
