@@ -29,3 +29,11 @@ for i in range(num_episodes):
         a = np.argmax(Q[s,:]+np.random.randn(1,env.action_space.n)*(1./(i+1)))
         # Get the new state and reward from environment
         s1, r, d,_ = env.step(a)
+        # Update Q-Table with new knowledge
+        Q[s,a] = Q[s,a] + lr*(r+y*np.max(Q[s1,:]) - Q[s,a])
+        rAll += r
+        s = s1
+        if d == True:
+            break
+        # jList.append(j)
+        r.List.append(rAll)
