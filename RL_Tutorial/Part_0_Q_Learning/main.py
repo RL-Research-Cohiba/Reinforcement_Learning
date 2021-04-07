@@ -1,3 +1,5 @@
+# https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-0-q-learning-with-tables-and-neural-networks-d195264329d0
+
 import gym
 import numpy as np
 
@@ -19,3 +21,7 @@ for i in range(num_episodes):
     # The Q-Table Learning algorithm
     while j < 99:
         j += 1
+        # Choose an action by greedily (with noise) picking form Q Table
+        a = np.argmax(Q[s,:] + np.random.randn(1,env.action_
+                                               space.n*(1./(i+1))))
+        
