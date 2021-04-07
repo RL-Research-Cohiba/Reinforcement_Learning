@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "/anaconda3/envs/deep_rl/bin/python",
+    "python.pythonPath": "C:\\Users\\jstroud32680\\AppData\\Local\\Continuum\\anaconda3\\envs\\deep_rl\\python.exe",
     "python.formatting.provider": "black"
 }
