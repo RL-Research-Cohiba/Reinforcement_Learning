@@ -1,3 +1,12 @@
+"""
+
+Markov models and Markov chains explained in real life:
+probabilistic workout routine
+
+https://towardsdatascience.com/markov-models-and-markov-chains-explained-in-real-life-probabilistic-workout-routine-65e47b5c9a73
+
+"""
+
 import numpy as np
     """
     Takes the transition matrix and runs through each state of the Markov
