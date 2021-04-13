@@ -1,4 +1,7 @@
-1. What is Reinforcment Learning
+1. What is Reinforcement Learning\
+- The goal of Reinforcement Learning is to learn a good strategy for the agent
+from experimental trial and relative simple feedback received. Using the optimal
+strategy the agent will actively adapt to the environment and maximize future rewards.
 
 2. What is the Markov Decision Process?
 
