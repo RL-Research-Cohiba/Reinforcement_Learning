@@ -2,8 +2,12 @@
 - The goal of Reinforcement Learning is to learn a good strategy for the agent
 from experimental trial and relative simple feedback received. Using the optimal
 strategy the agent will actively adapt to the environment and maximize future rewards.
+The goal is to maximize the total rewards. 
 
 2. What is the Markov Decision Process?
+- The future only depends on the current state, not the history. The future and the past
+are conditionally independent given the present, as the current state encapsulates all 
+the statistics we need to decide the future. 
 
 3. What is Q-Learning?
 
