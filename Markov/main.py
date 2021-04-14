@@ -28,6 +28,8 @@ def run_markov_chain(trainsition_maxtix, n=10, print_transitions=False):
                 print("Transition Matrix at step:" + str(time_step))
                 print(step)
                 print('--------------------------')
+                
+          next_step = np.matmul(step, transition_matrix).round(2)
     
 transition_matrix = np.array([[0.1, 0.4, 0.3, 0.2],
                               [0.35, 0.1, 0.25, 0.3],
