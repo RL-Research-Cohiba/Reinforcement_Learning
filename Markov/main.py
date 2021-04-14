@@ -9,7 +9,7 @@ https://towardsdatascience.com/markov-models-and-markov-chains-explained-in-real
 
 import numpy as np
 
-def run_markov_chain(trainsition_maxtix, n=10, print_transitions=False):
+def run_markov_chain(transition_maxtrix, n=10, print_transitions=False):
     """
     Takes the transition matrix and runs through each state of the Markov
     chain for n time steps. When the chain reaches a steady state, returns
