@@ -8,6 +8,8 @@ https://towardsdatascience.com/markov-models-and-markov-chains-explained-in-real
 """
 
 import numpy as np
+
+def run_markov_chain(trainsition_maxtix, n=10, print_transitions=False):
     """
     Takes the transition matrix and runs through each state of the Markov
     chain for n time steps. When the chain reaches a steady state, returns
@@ -19,6 +21,7 @@ import numpy as np
     - print_transitions: tells if we want to print the transition matrix at
       each time step
 """
+    
     
 transition_matrix = np.array([[0.1, 0.4, 0.3, 0.2],
                               [0.35, 0.1, 0.25, 0.3],
