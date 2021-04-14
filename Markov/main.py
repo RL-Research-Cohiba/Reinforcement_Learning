@@ -10,7 +10,10 @@ https://towardsdatascience.com/markov-models-and-markov-chains-explained-in-real
 import numpy as np
 def run_markov_chain(transition_matrix, n=10, print_transitions=False):
     """
-    Takes the transition matrix and runs through each state of the Markov chain for n time steps. When the chain reaches a steady state, returns the transition probabilities and the time step of the convergence.
+    Takes the transition matrix and runs through each state of the Markov 
+    chain for n time steps. When the chain reaches a steady state, returns
+    the transition probabilities and the time step of the convergence.
+    
     @params:
     - transition matrix: transition probabilities
     - n: number of time steps to run. default is 10 steps
@@ -42,3 +45,20 @@ transition_matrix = np.array([[0.1, 0.4, 0.3, 0.2],
 power_transition_matrix = run_markov_chain(transition_matrix)
 
 run_markov_chain(transition_matrix, print_transitions=True)
+
+
+
+def state_probability_at_power(start_probability_vec, power, transition_matrix):
+    """
+    @params
+    - start_probability_vec: vector with the probability distribution for each starting state
+    - power: number of time steps to run the markov chain
+    - transition matrix: transition probabilities
+    """
+    probability_at_power = np.matmul(start_probability_vec, run_markov_chain(transition_matrix, n=power)).round(2)
+    
+    print('Probability of being in each state at time-step = ' + str(power))
+    print(probability_at_power)
+
+start_probability_vec = np.array([0.25, 0.25, 0.25, 0.25])
+state_probability_at_power(start_probability_vec, 4, transition_matrix)
