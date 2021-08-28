@@ -6,6 +6,9 @@
 * https://medium.com/@carsten.friedrich/teaching-a-computer-to-play-tic-tac-toe-88feb838b5e3
 * https://github.com/dennybritz/reinforcement-learning.git
 
+# Sutton and Barto Book
+* http://incompleteideas.net/book/the-book-2nd.html
+
 ## Double Q-Learning
 * https://papers.nips.cc/paper/3964-double-q-learning.pdf
 * https://towardsdatascience.com/double-q-learning-the-easy-way-a924c4085ec3
